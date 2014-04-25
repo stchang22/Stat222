@@ -3,8 +3,9 @@ from sklearn import tree
 import pandas as pd
 import numpy as np
 import itertools as itt
+from sklearn.neighbors import KNeighborsClassifier
 
-# Testing to make sure tree classifier behaves properly
+# Testing to make sure tree classifier behaves properly (lower class)
 def test_tree1():
     junk = [{'x':1,'y':1},{'x':2,'y':1},{'x':1,'y':2},{'x':10,'y':50},{'x':12,'y':52},{'x':11,'y':51}]
     junkLab = [{'z':1},{'z':1},{'z':1},{'z':2},{'z':2},{'z':2}]
@@ -19,7 +20,7 @@ def test_tree1():
     assert clf.predict(testDat) == 1, clf.predict(testDat)
     
     
-# Testing to make sure tree classifier behaves properly
+# Testing to make sure tree classifier behaves properly (higher class)
 def test_tree2():
     junk = [{'x':1,'y':1},{'x':2,'y':1},{'x':1,'y':2},{'x':10,'y':50},{'x':12,'y':52},{'x':11,'y':51}]
     junkLab = [{'z':1},{'z':1},{'z':1},{'z':2},{'z':2},{'z':2}]
@@ -45,3 +46,35 @@ def test_combo():
                     
         
     assert all(g in testA for g in fin),g
+    
+    
+# Testing to make sure KNN behaves properly (lower class)
+def test_knn():
+    junk= [{'x':1,'y':1},{'x':2,'y':1},{'x':1,'y':2},{'x':10,'y':50},{'x':12,'y':52},{'x':11,'y':51}]
+    junkLab= [{'z':1},{'z':1},{'z':1},{'z':2},{'z':2},{'z':2}]
+    junkT= [{'x':0,'y':0}]
+    junkTLab=[{'z':1}]
+    trainDat=pd.DataFrame(junk)
+    trainLab=pd.DataFrame(junkLab)
+    testDat=pd.DataFrame(junkT)
+    testLab=pd.DataFrame(junkTLab)
+    neigh = KNeighborsClassifier(n_neighbors=1)
+    neigh.fit(trainDat, np.ravel(trainLab)) 
+    predictedValues = KNeighborsClassifier.predict(neigh,testDat)
+    assert predictedValues ==1, predictedValues
+    
+
+# Testing to make sure KNN behaves properly (higher class)
+def test_knn2():
+    junk= [{'x':1,'y':1},{'x':2,'y':1},{'x':1,'y':2},{'x':10,'y':50},{'x':12,'y':52},{'x':11,'y':51}]
+    junkLab= [{'z':1},{'z':1},{'z':1},{'z':2},{'z':2},{'z':2}]
+    junkT= [{'x':15,'y':60}]
+    junkTLab=[{'z':2}]
+    trainDat=pd.DataFrame(junk)
+    trainLab=pd.DataFrame(junkLab)
+    testDat=pd.DataFrame(junkT)
+    testLab=pd.DataFrame(junkTLab)
+    neigh = KNeighborsClassifier(n_neighbors=1)
+    neigh.fit(trainDat, np.ravel(trainLab)) 
+    predictedValues = KNeighborsClassifier.predict(neigh,testDat)
+    assert predictedValues ==2, predictedValues
