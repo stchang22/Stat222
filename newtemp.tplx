@@ -1,0 +1,10 @@
+((* extends "latex_article.tplx" *))
+
+((* block author *))
+\author{James Bladen and Steven Chang}
+((* endblock author *))
+
+((* block title *))
+\title{What Class are You In? A Look at StarCraft 2 Players}
+((* endblock title *))
+
