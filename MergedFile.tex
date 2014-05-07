@@ -199,8 +199,8 @@
     \sloppy
 
     % Document level variables
-    \title{What Class are you In? A Study of StarCraft 2 Players}
-    \date{May 6, 2014}
+    \title{StarCraft 2: An Analysis of Player Ranking}
+    \date{May 7, 2014}
     \release{}
     \author{James Bladen and Steven Chang}
     \renewcommand{\releasename}{}
@@ -375,18 +375,13 @@ considered a new PAC. That gives rise to some more variables like how
 often do they change their PAC, and how long does it take for them to
 make their first action once they are in a new PAC.
 
-Another important definition to understand is something called a hotkey.
-Hotkeys are used by assigning a certain keyboard key to perform an in
-game action. The in game actions can range from selecting a groups of
-units, having those units move to a location, having them attack
-something, having them perform a special attack, and so on. The idea is
-that it is much faster to automatically select a group and then tell
-them to do something with two key presses rather than having to find
-them on the map, select them all with your mouse, then clicking the
-button that refers to that action. We believe that a player's use of
-hotkeys should do well at determining skill and thus a few of the
-variables used are directly related to how they handle their hotkey
-usage.
+If you look at the game screenshot below, take note of the bottom left
+of the image. That image is called a minimap. In terms of sports, it
+would be considered the entire field of play. The point of dividing
+things into different screenshots is that in this game you cannot
+actually view the entire field at once. You can only view small sections
+of the field. So the idea is that we want to know what kinds of things
+you are doing while viewing a certain part of the play field.
 
     
 
@@ -410,61 +405,99 @@ usage.
             
         
     
-Here is a list of all the variables created for this data set:
+Another important definition to understand is something called a hotkey.
+Hotkeys are used by assigning a certain keyboard key to perform an in
+game action. The in game actions can range from selecting a groups of
+units, having those units move to a location, having them attack
+something, having them perform a special attack, and so on. The idea is
+that it is much faster to automatically select a group and then tell
+them to do something with two key presses rather than having to find
+them on the map, select them all with your mouse, then clicking the
+button that refers to that action. We believe that a player's use of
+hotkeys should do well at determining skill and thus a few of the
+variables used are directly related to how they handle their hotkey
+usage. In terms of the image above, note the bottom right portion of the
+screen. That shows you all the actions that the selected unit can take.
+When actually playing the game, the time it would take for you to find
+your unit on the map and then click the button for the correct action is
+precious time that can be saved using hotkeys. In a game where speed
+counts, every little advantage you can get on your opponent should lead
+to more wins.Here is a list of all the variables created for this data set:
 
 \begin{enumerate}[1.]
 \item
   GameID: Unique ID number for each game (integer)
 \item
   LeagueIndex: Bronze, Silver, Gold, Platinum, Diamond, Master,
-  GrandMaster, and Professional leagues coded 1-8 (Ordinal)
+  GrandMaster, and Professional leagues coded 1-8 (Ordinal)\\This is our
+  response variable. It is an ordered variable that attempts to predict
+  how skilled you are right now.
 \item
-  Age: Age of each player (integer)
+  Age: Age of each player (integer)\\We are curious if certain age
+  groups are better players than other groups. It is widely believed
+  that older players tend to perform worse than younger players.
 \item
-  HoursPerWeek: Reported hours spent playing per week (integer)
+  HoursPerWeek: Reported hours spent playing per week (integer)\\A
+  possible measure of how dedicated the player is to improving.
 \item
-  TotalHours: Reported total hours spent playing (integer)
+  TotalHours: Reported total hours spent playing (integer)\\A measure of
+  how much experience a player has playing StarCraft 2.
 \item
-  APM: Action per minute (continuous)
+  APM: Action per minute (continuous)\\Average number of actions you
+  make throughout the game. Many players believe this is the only or
+  best measure of skill.
 \item
   SelectByHotkeys: Number of unit or building selections made using
-  hotkeys per timestamp (continuous)
+  hotkeys per timestamp (continuous)\\
 \item
   AssignToHotkeys: Number of units or buildings assigned to hotkeys per
-  timestamp (continuous)
+  timestamp (continuous)\\
 \item
   UniqueHotkeys: Number of unique hotkeys used per timestamp
-  (continuous)
+  (continuous)\\We believe the more you use hotkeys the more skilled you
+  are as a player.
 \item
   MinimapAttacks: Number of attack actions on minimap per timestamp
-  (continuous)
+  (continuous)\\
 \item
   MinimapRightClicks: number of right-clicks on minimap per timestamp
-  (continuous)
+  (continuous)\\The use of the minimap is an alternative to moving your
+  entire view. It requires some amount of foresight to use properly.
 \item
-  NumberOfPACs: Number of PACs per timestamp (continuous)
+  NumberOfPACs: Number of PACs per timestamp (continuous)\\
 \item
   GapBetweenPACs: Mean duration in milliseconds between PACs
-  (continuous)
+  (continuous)\\These two are related to map awareness. The more the
+  player scouts the more information the player has about his opponent.
 \item
   ActionLatency: Mean latency from the onset of a PACs to their first
-  action in milliseconds (continuous)
+  action in milliseconds (continuous)\\A measure of reflex time. It may
+  also signify how much the player has planned ahead of time.
 \item
-  ActionsInPAC: Mean number of actions within each PAC (continuous)
+  ActionsInPAC: Mean number of actions within each PAC (continuous)\\The
+  higher this variable is, the more likely the player is just looking at
+  one particular area of the map.
 \item
   TotalMapExplored: The number of 24x24 game coordinate grids viewed by
-  the player per timestamp (continuous)
+  the player per timestamp (continuous)\\A measure of map awareness. It
+  is generally believed that scouting provides useful information about
+  the opponent.
 \item
   WorkersMade: Number of SCVs, drones, and probes trained per timestamp
-  (continuous)
+  (continuous)\\Vital for establishing a strong economy. Strong
+  economies tend to allow players to build stronger armies.
 \item
-  UniqueUnitsMade: Unique unites made per timestamp (continuous)
+  UniqueUnitsMade: Unique units made per timestamp (continuous)\\A
+  measure of how diverse a player's army is. A more diverse army is
+  harder to defeat but often requires more maintenence.
 \item
   ComplexUnitsMade: Number of ghosts, infestors, and high templars
-  trained per timestamp (continuous)
+  trained per timestamp (continuous)\\
 \item
   ComplexAbilitiesUsed: Abilities requiring specific targeting
-  instructions used per timestamp (continuous)
+  instructions used per timestamp (continuous)\\When used properly,
+  complex units and spells may provide additional advantages over the
+  opponent.
 \end{enumerate}\part{Trees}We attempt to address variable selection by utilizing decision trees.
 Through some preliminary exploratory analysis we discovered that skills
 which differentiate players of two particular leagues may not be the
@@ -482,8 +515,9 @@ them in our classification method.
 
 We use 10-fold Cross Validation to find two optimal parameters: the
 minimum number of samples required to split an internal node and the
-minimum number of samples required to be at a leaf node.
-
+minimum number of samples required to be at a leaf node. We use a zero
+one loss function for evaluation.
+\newpage
 This first tree represents the comparison of the two lowest leagues.
 
     
@@ -496,11 +530,11 @@ This first tree represents the comparison of the two lowest leagues.
 
             % Add document contents.
             
-                \makebox[0.1\linewidth]{\smaller\hfill\tt\color{nbframe-out-prompt}Out\hspace{4pt}{[}193{]}:\hspace{4pt}}\\*
+                \makebox[0.1\linewidth]{\smaller\hfill\tt\color{nbframe-out-prompt}Out\hspace{4pt}{[}23{]}:\hspace{4pt}}\\*
                 \vspace{-2.55\baselineskip}\begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_21_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_22_0.png}
     \par
     \end{center}
     
@@ -516,7 +550,7 @@ tree, notice the value for SelectByHotkeys is really small. This
 suggests that if you select something using a hotkey even once you are
 more likely to be in the higher league. This matches our intuition that
 using hotkeys is related to player skill.
-
+\newpage
 This next tree represents the comparison of a low league and a middle
 league.
 
@@ -530,11 +564,11 @@ league.
 
             % Add document contents.
             
-                \makebox[0.1\linewidth]{\smaller\hfill\tt\color{nbframe-out-prompt}Out\hspace{4pt}{[}194{]}:\hspace{4pt}}\\*
+                \makebox[0.1\linewidth]{\smaller\hfill\tt\color{nbframe-out-prompt}Out\hspace{4pt}{[}22{]}:\hspace{4pt}}\\*
                 \vspace{-2.55\baselineskip}\begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_23_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_24_0.png}
     \par
     \end{center}
     
@@ -549,7 +583,7 @@ starting a new PAC to making an action. Furthermore, the tree consists
 of only three variables and two of them are measures of game mechanics.
 ActionLatency and APM combined with TotalHours suggest that the
 difference between these two leagues is sheer amount of practice.
-
+\newpage
 This next tree represents the comparison of a middle league and high
 league.
 
@@ -563,11 +597,11 @@ league.
 
             % Add document contents.
             
-                \makebox[0.1\linewidth]{\smaller\hfill\tt\color{nbframe-out-prompt}Out\hspace{4pt}{[}199{]}:\hspace{4pt}}\\*
+                \makebox[0.1\linewidth]{\smaller\hfill\tt\color{nbframe-out-prompt}Out\hspace{4pt}{[}21{]}:\hspace{4pt}}\\*
                 \vspace{-2.55\baselineskip}\begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_25_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_26_0.png}
     \par
     \end{center}
     
@@ -600,11 +634,11 @@ For the final tree, we compare the two highest leagues.
 
             % Add document contents.
             
-                \makebox[0.1\linewidth]{\smaller\hfill\tt\color{nbframe-out-prompt}Out\hspace{4pt}{[}200{]}:\hspace{4pt}}\\*
+                \makebox[0.1\linewidth]{\smaller\hfill\tt\color{nbframe-out-prompt}Out\hspace{4pt}{[}20{]}:\hspace{4pt}}\\*
                 \vspace{-2.55\baselineskip}\begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_27_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_28_0.png}
     \par
     \end{center}
     
@@ -636,7 +670,7 @@ that lists the three most important variable used by the trees.
                 \begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_29_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_30_0.png}
     \par
     \end{center}
     
@@ -699,7 +733,7 @@ then for this result to show up in the following KNN decision plots.
                 \begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_34_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_35_0.png}
     \par
     \end{center}
     
@@ -720,7 +754,9 @@ games to get there. So our belief then is that the KNN model is grouping
 people on their current skill which does a better job of predicting
 their true skill than their wins and losses. So as long as our variables
 are representative of a player's skill, then this model is doing very
-well.This next plot is made to contrast the one from before.
+well.
+\newpage
+This next plot is made to contrast the one from before.
 
     
 
@@ -735,7 +771,7 @@ well.This next plot is made to contrast the one from before.
                 \begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_37_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_38_0.png}
     \par
     \end{center}
     
@@ -790,7 +826,7 @@ the player's current league.
                 \begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_45_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_46_0.png}
     \par
     \end{center}
     
@@ -814,7 +850,27 @@ the upper right and lower left corners signifies a very large difference
 in what we predict versus current ranking. We said previously that we
 expect for this to happen very rarely, which is indeed the case if you
 check the values: 80\% of the data lies either on the diagonal or
-directly off the diagonal.\part{Conclusion}In conclusion, defining skills are heavily based on context; there is no
+directly off the diagonal.\part{Conclusion}We found several interesting absences of variables from the matchups.
+For starters, Age was never one of the top three variables for any tree
+to split on. Typically, the belief is that older players have slower
+reflexes which would put them at a disadvantage but this did not show up
+prominently. None of the in-game variables (i.e.~WorkersMade,
+UniqueUnitsMade, etc.) showed up as well, signifying that there is no
+optimal strategy that leads to becoming a better player. Flipping it
+around, we were surprised to see TotalHours show up in many of the
+matchups. This is actually a bad thing because time is not a measure of
+the quality of play: a player may spend many hours playing horribly but
+our model would assume the opposite, that the player spent many hours
+playing very well.
+
+If we were to improve the study, we would want to try and find a more
+random sample. In particular we would like a sample that reflects the
+current league distribution, so we would want more lower league players
+and less higher league players. In addition, we would want to try more
+advanced methods such as random forests and support vector machines
+although those methods would lack interpretability.
+
+In conclusion, defining skills are heavily based on context; there is no
 one variable that can be used well in every matchup. For matchups
 involving lower league players, APM is very important. As the leagues go
 up, ActionLatency becomes more important. Our KNN model does a good job
