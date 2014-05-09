@@ -200,7 +200,7 @@
 
     % Document level variables
     \title{StarCraft 2: An Analysis of Player Ranking}
-    \date{May 7, 2014}
+    \date{May 9, 2014}
     \release{}
     \author{James Bladen and Steven Chang}
     \renewcommand{\releasename}{}
@@ -248,26 +248,26 @@ place.
 
 The current ranking is based off Arpod Elo's rating system that was
 originally created as a way to improve chess rating system. This method
- has been adopted by many sports and games. The basic idea of
-the rating system is that you are assigned a numeric value for your
-rating, and when playing against other players, your rating goes up or
-down based on whether you win or lose. When playing against a player
-with a higher rating, you are able to win more points than when you play
-against an opponent with a less rating. The general idea is that if you
-are playing against a `better' opponent you should be able to win more,
-and should not be punished as hard when you lose. In SC2, they assign
-leagues based off of your current elo rating, essentially binning them
-into 6 categories for each of the 6 leagues.
+has been adopted by many sports and games. The basic idea of the rating
+system is that you are assigned a numeric value for your rating, and
+when playing against other players your rating goes up or down based on
+whether you win or lose. When playing against a player with a higher
+rating, you are able to win more points than when you play against an
+opponent with a less rating. The general idea is that if you are playing
+against a `better' opponent you should be able to win more, and should
+not be punished as hard when you lose. In SC2 they assign leagues based
+off of your current ELO rating, essentially binning them into 6
+categories for each of the 6 leagues.
 
 There are some drawbacks that come along with this particular rating
 system, which this project is going to try to find solutions for. There
-are three main problems that come up in the implementation for SC2.
-First, it takes many games in order for your rating points to accurately
-match your skill level. In the short term, there is a lot of variability
-in your rating so it is hard to use it as a reliable measure of your
-skill. Secondly, if you happen to have a rating that is higher than your
-actual skill level, the system encourages you to stop playing in order
-to protect your rating. Because the ranking is based purely off wins and
+are three main problems that occur in the implementation for SC2. First,
+it takes many games in order for your rating points to accurately match
+your skill level. In the short term, there is a lot of variability in
+your rating so it is hard to use it as a reliable measure of your skill.
+Secondly, if you happen to have a rating that is higher than your actual
+skill level, the system encourages you to stop playing in order to
+protect your rating. Because the ranking is based purely off wins and
 losses, if you stop playing your ranking will stay the same. The last
 problem with the ranking is that due to inflation of points, it is
 difficult to use it to compare your skill to somebody from a previous
@@ -279,7 +279,8 @@ leagues as new players and leaving once they have already gotten many
 points. Very good players who stop playing will take away many points
 from the overall pool of players, never to be seen again. Thus, when
 comparing your rating with someone from a different time period, you
-have no idea what your point value truly means compared to a point value from a different time.
+have no idea what your point value truly means compared to a point value
+from a different time period.
 
 Our goal in this project is to come up with a way of determining player
 skill that circumvents these issues. Ideally, we want to find some
@@ -288,21 +289,22 @@ wins and losses. That way we can group players based on skill level,
 which is the whole point of a rating system. We would also want to be
 able to do this without requiring many games to be played. We could then
 even use this skill level measure to see trends over time of the overall
-playerbase. You could actually look at your in game statistics and
-compare them to someone elses, regardless of when that person played
+playerbase. You could actually look at your in-game statistics and
+compare them to someone else's, regardless of when that person played
 compared to you.\part{Data}Our analysis is based off of a dataset found on the UCI repository.
 Players were asked through a forum to donate a replay of one of their
-games. That replay was then sent through a processing software to
-convert it into in game statistics. The dataset originally consisted of
-3,395 observations (in this instance, a unique replay is an
-observation). We had to drop about 100 replays because either there was
-missing information or some of the information was unreasonable. For
-example, players were asked how many hours in total they played the game
-and one player reported 1,000,000 hours. This converts to over 114 years
-which is impossible to be true. All in all, there are 19 variables: the
-response variable is the league a player is placed in, and the remaining
-18 variables are a mix of personal information (age, hours played per
-week, and total hours played) and statistics gathered from the replay.
+games. Replays were then sent through a processing software to convert
+them into in-game statistics. The dataset originally consisted of 3,395
+observations (in this instance, a unique replay is an observation). We
+had to drop about 100 replays because either there was missing
+information or some of the information was unreasonable. For example,
+players were asked how many hours in total they played the game and one
+player reported 1,000,000 hours. This converts to over 114 years which
+is impossible to be true. All in all, there are 19 variables that could
+be useful: the response variable is the league a player is placed in,
+and the remaining 18 variables are a mix of personal information (age,
+hours played per week, and total hours played) and statistics gathered
+from the replay.
 
 
 
@@ -321,7 +323,7 @@ week, and total hours played) and statistics gathered from the replay.
                 \begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_9_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{SC2Final_files/SC2Final_9_0.png}
     \par
     \end{center}
     
@@ -332,15 +334,15 @@ week, and total hours played) and statistics gathered from the replay.
 Our replays came from players who voluntarily submitted their games to
 the forum. This means that our data is not a simple random sample. The
 types of players who frequent a forum and would also be willing to
-donate a replay are probably not representative of the population. This
-is seen quite clearly in these histograms of the distribution of our
-data versus the distribution of the population. Our data is biased
-towards having many more players in the higher leagues, because those
-are the types that would be more willing to send in their games. So this
-means that we have to deal with a biased sample and make sure to use
-models that won't be heavily influenced by this. Any model that requires
-the probabilities of being in a certain class would probably fail due to
-our data being so heavily skewed.
+donate a replay are probably not representative of the player
+population. This is seen quite clearly in these histograms of the
+distribution of our data versus the distribution of the population. Our
+data is biased towards having many more players in the higher leagues
+because those players are the types that would be more willing to send
+in their games. This means that we have to deal with a biased sample and
+make sure to use models that will not be heavily influenced by this. Any
+model that requires the probabilities of being in a certain class would
+probably fail due to our data being so heavily skewed.
 
     
 
@@ -355,7 +357,7 @@ our data being so heavily skewed.
                 \begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_11_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{SC2Final_files/SC2Final_11_0.png}
     \par
     \end{center}
     
@@ -364,23 +366,23 @@ our data being so heavily skewed.
         
     
 \part{Variables Used}The software that was used to process the game replays did so by
-discretizing it into screenshots which were then used to count game
-actions. The variables used are then just averages of those actions over
-all screenshots. These screenshots are referred to as perception action
-cycles (PAC). These PAC's refer to when a player is currently viewing
-some part of the map. So a single PAC is the players current view, and
-if they start to view somewhere else in the game that would be
-considered a new PAC. That gives rise to some more variables like how
-often do they change their PAC, and how long does it take for them to
-make their first action once they are in a new PAC.
+discretizing them into screenshots which were then used to count game
+actions. Most variables in the dataset are just averages of those
+actions over all screenshots. These screenshots are referred to as
+Perception Action Cycles (PAC). These PAC's refer to when a player is
+currently viewing some part of the map, so a single PAC is the player's
+current view. If the player starts to view somewhere else in the game
+that would be considered a new PAC. That gives rise to some more
+variables like how often do they change their PAC, and how long does it
+take for players to make their first action once they are in a new PAC.
 
 If you look at the game screenshot below, take note of the bottom left
 of the image. That image is called a minimap. In terms of sports, it
-would be considered the entire field of play. The point of dividing
+would be considered as the entire field of play. The point of dividing
 things into different screenshots is that in this game you cannot
 actually view the entire field at once. You can only view small sections
-of the field. So the idea is that we want to know what kinds of things
-you are doing while viewing a certain part of the play field.
+of the field, so the idea is that we want to know what kinds of things a
+player is doing while viewing a certain part of the playing field.
 
     
 
@@ -396,7 +398,7 @@ you are doing while viewing a certain part of the play field.
                 \vspace{-2.55\baselineskip}\begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_14_0.jpeg}
+    \includegraphics[max size={\textwidth}{\textheight}]{SC2Final_files/SC2Final_14_0.jpeg}
     \par
     \end{center}
     
@@ -405,8 +407,8 @@ you are doing while viewing a certain part of the play field.
         
     
 Another important definition to understand is something called a hotkey.
-Hotkeys are used by assigning a certain keyboard key to perform an in
-game action. The in game actions can range from selecting a groups of
+Hotkeys are used by assigning a certain keyboard key to perform an
+in-game action. The in-game actions can range from selecting a groups of
 units, having those units move to a location, having them attack
 something, having them perform a special attack, and so on. The idea is
 that it is much faster to automatically select a group and then tell
@@ -414,14 +416,16 @@ them to do something with two key presses rather than having to find
 them on the map, select them all with your mouse, then clicking the
 button that refers to that action. We believe that a player's use of
 hotkeys should do well at determining skill and thus a few of the
-variables used are directly related to how they handle their hotkey
+variables used are directly related to how a player handles hotkey
 usage. In terms of the image above, note the bottom right portion of the
 screen. That shows you all the actions that the selected unit can take.
 When actually playing the game, the time it would take for you to find
 your unit on the map and then click the button for the correct action is
 precious time that can be saved using hotkeys. In a game where speed
 counts, every little advantage you can get on your opponent should lead
-to more wins.Here is a list of all the variables created for this data set:
+to more wins.
+
+Here is a list of all the variables created for this data set:
 
 \begin{enumerate}[1.]
 \item
@@ -497,12 +501,12 @@ to more wins.Here is a list of all the variables created for this data set:
   instructions used per timestamp (continuous)\\When used properly,
   complex units and spells may provide additional advantages over the
   opponent.
-\end{enumerate}\part{Trees}We attempt to address variable selection by utilizing decision trees.
+\end{enumerate}\part{Trees}We attempted to address variable selection by utilizing decision trees.
 Through some preliminary exploratory analysis we discovered that skills
 which differentiate players of two particular leagues may not be the
 same skills that differentiate players of two other leagues.
-Intuitively, this is happens because players of the lower leagues are at
-a different stage of learning the game versus players of the higher
+Intuitively, this happens because players of the lower leagues are at a
+different stage of learning the game versus players of the higher
 leagues. Because of this, we made the decision to focus on every
 combination of two leagues rather than looking at everybody at once. For
 each combination (referred to as a `matchup' from here on out), we
@@ -512,12 +516,13 @@ in the important variables that are used in separating the players in
 each league. Then we will take some aggregate of those variables and use
 them in our classification method.
 
-We use 10-fold Cross Validation to find two optimal parameters: the
+We used 10-fold Cross Validation to find two optimal parameters: the
 minimum number of samples required to split an internal node and the
-minimum number of samples required to be at a leaf node. We use a zero
-one loss function for evaluation.
-\newpage
-This first tree represents the comparison of the two lowest leagues.
+minimum number of samples required to be at a leaf node. We used a zero
+one loss function to evaluate each pair of parameter values.
+
+We will now take a look at the trees of four particular matchups to get
+a sense of which variables the trees are utilizing.  This first tree represents the comparison of the two lowest leagues.
 
     
 
@@ -533,7 +538,7 @@ This first tree represents the comparison of the two lowest leagues.
                 \vspace{-2.55\baselineskip}\begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_22_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{SC2Final_files/SC2Final_22_0.png}
     \par
     \end{center}
     
@@ -547,7 +552,7 @@ actions a player makes per minute. In other words, APM measures how
 quickly you move and make actions throughout the game. Further down the
 tree, notice the value for SelectByHotkeys is really small. This
 suggests that if you select something using a hotkey even once you are
-more likely to be in the higher league. This matches our intuition that
+more likely to be in the higher league, thus matching our intuition that
 using hotkeys is related to player skill.
 \newpage
 This next tree represents the comparison of a low league and a middle
@@ -567,7 +572,7 @@ league.
                 \vspace{-2.55\baselineskip}\begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_24_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{SC2Final_files/SC2Final_24_0.png}
     \par
     \end{center}
     
@@ -583,7 +588,7 @@ of only three variables and two of them are measures of game mechanics.
 ActionLatency and APM combined with TotalHours suggest that the
 difference between these two leagues is sheer amount of practice.
 \newpage
-This next tree represents the comparison of a middle league and high
+This next tree represents the comparison of a middle league and a high
 league.
 
     
@@ -600,7 +605,7 @@ league.
                 \vspace{-2.55\baselineskip}\begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_26_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{SC2Final_files/SC2Final_26_0.png}
     \par
     \end{center}
     
@@ -608,18 +613,20 @@ league.
             
         
     
-The most notable thing about this tree is the amount of splits required
-to get a decent separation. The complexity of the tree represents the
-difficulty our variables have in quantifying the difference between
-medium players and good players. From personal experience, medium level
-players tend to have similar if not the same mechanical skills that high
-players have but they lack experience in making decisions. This type of
-difference is not something that our variables do a good job of taking
-into account, hence why there are so many required to separate the
-leagues. Notice that there are multiple variables that concern the use
-of hotkeys that were not present in the previous two trees. It suggests
-that higher level players are more comfortable at using hotkeys and thus
-are more likely to queue more complex sequences of actions.
+ActionLatency is the first variable the tree splits on, like the
+previous tree. The most notable thing about this particular tree is the
+amount of splits required to get a decent separation. The complexity of
+the tree represents the difficulty our variables have in quantifying the
+difference between medium players and good players. From personal
+experience, medium level players tend to have similar if not the same
+mechanical skills that high players have but they lack experience in
+making decisions. This type of difference is not something that our
+variables do a good job of taking into account, hence why there are so
+many required to separate the leagues. Notice that there are multiple
+variables that concern the use of hotkeys that were not present in the
+previous two trees. It suggests that higher level players are more
+comfortable at using hotkeys and thus are more likely to queue more
+complex sequences of actions.
 
 For the final tree, we compare the two highest leagues.
 
@@ -637,7 +644,7 @@ For the final tree, we compare the two highest leagues.
                 \vspace{-2.55\baselineskip}\begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_28_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{SC2Final_files/SC2Final_28_0.png}
     \par
     \end{center}
     
@@ -654,7 +661,7 @@ are quite similar mechanically, thus the differences come from smaller
 details that are gained through playing the game more often.
 
 To give the reader a summary of all the matchups, we created a table
-that lists the three most important variable used by the trees.
+that lists the three most important variable used by each of the trees.
 
     
 
@@ -669,7 +676,7 @@ that lists the three most important variable used by the trees.
                 \begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_30_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{SC2Final_files/SC2Final_30_0.png}
     \par
     \end{center}
     
@@ -685,7 +692,7 @@ confirms our hypothesis that different matchups require different
 variables to describe them.\part{K Nearest Neighbors}Now that we have an understanding of the variables that are important
 for each of the leagues, we want to classify players into leagues using
 these variables. We are looking to find a method that circumvents the
-problems that the current ranking system have. For reference, the issues
+problems that the current ranking system has. For reference, the issues
 that we have with the current ranking systems are threefold. First, it
 requires too many games to give a reliable result. Second, players can
 stop playing in order to protect their current ranking. And third, it is
@@ -693,30 +700,31 @@ hard to use ranking to compare your skill to players from previous times
 due to inflation of points. Ideally, we would want a model that
 addresses all 3 of these issues.
 
-Since our dataset is involving only a single game per person, if we can
-find a method to classify that is at least fairly reliable then we have
+Since our dataset involves only a single game per person, if we can find
+a method to classify that is at least fairly reliable then we have
 addressed the first concern. The second and third concerns are due to
 the way they use point values to keep track. So rather than grouping
 players by point values, we should try to group them by skill level. We
-want player of similar skill statistics to be classed into similar
-leagues. Thus the intuitive model choice here is K nearest neighbors.
-This method is especially useful because it requires no distributional
-assumptions and the effect of our biased sample is not going to be so
-bad. Remember that our sample came from people who volunteered their
-games, and we had a heavy bias towards higher leagues. KNN does a fairly
-good job of not giving too biased of predictions even with that kind of
-sample.
+want players of similar skill statistics to be classed into similar
+leagues, thus the intuitive model choice here is K nearest neighbors
+(KNN). This method is especially useful because it requires no
+distributional assumptions and the effect of our biased sample is not
+going to be so bad. Remember that our sample came from people who
+volunteered their games, and we had a heavy bias towards higher leagues.
+KNN does a fairly good job of not giving too biased of predictions even
+with that kind of sample.
 
 Now we want to get a sense of the way that KNN will behave for our
 dataset. Since it is impossible to plot out all the variables used, we
 decided to plot on ActionLatency and GapInPAC. GapInPAC is essentially
-looking at how often you move your screen around to look at new things
-while ActionLatency is how long it takes you to do something after you
-looked at a new part of the screen. Together they should be at least
-somewhat representative of a player's multitasking ability. Intuitively,
-better players will have smaller gaps in PAC and smaller action latency,
-meaning they are moving around a lot and acting fast. We should expect
-then for this result to show up in the following KNN decision plots.
+looking at how often a player moves the screen around to look at new
+things while ActionLatency is how long it takes the player to do
+something after moving the view to a new part of the map. Together they
+should be at least somewhat representative of a player's multitasking
+ability. Intuitively, better players will have smaller values for
+GapInPAC and ActionLatency, meaning they are moving around a lot and
+acting fast. We should expect then for this result to show up in the
+following KNN decision plots.
 
 
     
@@ -732,7 +740,7 @@ then for this result to show up in the following KNN decision plots.
                 \begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_35_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{SC2Final_files/SC2Final_35_0.png}
     \par
     \end{center}
     
@@ -740,18 +748,18 @@ then for this result to show up in the following KNN decision plots.
             
         
     
-So this plot uses a subset of the data containing only players from
-class 1 (the worst) and class 2, (second worst). So it looks like as far
-as the boundaries go, it follows our intuition that the better league is
-the one closer to the origin (smaller values for both variables).
-However when it comes to leagues that are right next to each other, it
-seems like there is a very large overlap of the players. This means that
-players who are in leagues 1 off from another tend to have similar skill
+This plot uses a subset of the data containing only players from class 1
+(the worst) and class 2 (second worst). As far as the boundaries go, it
+follows our intuition that the better league is the one closer to the
+origin (smaller values for both variables). However, when it comes to
+leagues that are right next to each other it seems like there is a very
+large overlap of the players. This means that players who are in leagues
+one off from another (i.e.~leagues 1 and 2) tend to have similar skill
 statistics. In terms of ranking, this could be due to the fact that they
 are not yet in their `true' league because they haven't played enough
 games to get there. So our belief then is that the KNN model is grouping
 people on their current skill which does a better job of predicting
-their true skill than their wins and losses. So as long as our variables
+their true skill than their wins and losses. As long as our variables
 are representative of a player's skill, then this model is doing very
 well.
 \newpage
@@ -770,7 +778,7 @@ This next plot is made to contrast the one from before.
                 \begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_38_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{SC2Final_files/SC2Final_37_0.png}
     \par
     \end{center}
     
@@ -788,7 +796,7 @@ a pretty huge statement. Luckily this does not seem to happen too often
 so our model is not completely contradicting the current ranking, which
 is good. Theoretically, we should expect to see that the full KNN model
 should have many similar predictions and many slight differences, but
-not too many large contradictions with the current rankings.\part{Building the Model}So now we fit a KNN model by cross validating over K, using the zero-one
+not too many large contradictions with the current rankings.\part{Building the Model}Now we fit a KNN model by cross validating over K, using the zero-one
 loss function. We used the variable selection done in the first section
 and selected the following 5 variables:
 
@@ -825,7 +833,7 @@ the player's current league.
                 \begin{InvisibleVerbatim}
                 \vspace{-0.5\baselineskip}
     \begin{center}
-    \includegraphics[max size={\textwidth}{\textheight}]{MergedFile_files/MergedFile_46_0.png}
+    \includegraphics[max size={\textwidth}{\textheight}]{SC2Final_files/SC2Final_45_0.png}
     \par
     \end{center}
     
